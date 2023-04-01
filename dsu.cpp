@@ -4,7 +4,6 @@ Note for me:
 2) DSU is connected graph with minimum edges ( for visualization )
 3) Whenever a question is related to components think of DSU
 */
-
 #include <bits/stdc++.h>
 using namespace std;
 
