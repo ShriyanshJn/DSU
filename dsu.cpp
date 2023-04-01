@@ -1,3 +1,10 @@
+/*
+Note for me:
+1) DSU ignores extra edge of same component
+2) DSU is connected graph with minimum edges ( for visualization )
+3) Whenever a question is related to components think of DSU
+*/
+
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -34,40 +41,52 @@ public:
             return node;
         // For long trees we take logN time to find ultimate parent
         // So, as we find ulti parent once for eg the leaf node, we update its parent to the ulti parent of that component
-        
+
         // PATH COMPRESSION
         return parent[node] = findUltimateParent(parent[node]);
         // Now, it would take constant time to find ultimate parent
         // Basically, we are just attaching a node to its ultimate parent directly
     }
     // Attaching nodes by following the 3 steps written above
-    void unionByRank(int u, int v){
+    void unionByRank(int u, int v)
+    {
         // 1. Find ulti parent
         int ulpu = findUltimateParent(u);
         int ulpv = findUltimateParent(v);
         // If both equal means already connected
-        if(ulpu == ulpv) return;
+        if (ulpu == ulpv)
+            return;
         // 2. Find rank of the ulti parent & 3. Attach smaller one to the larger one
-        if(rank[ulpu] < rank[ulpv]){
+        if (rank[ulpu] < rank[ulpv])
+        {
             // Attaching smaller to larger one => level (rank) size won't be affected
             parent[ulpu] = ulpv;
-        }else if(rank[ulpv] < rank[ulpu]){
+        }
+        else if (rank[ulpv] < rank[ulpu])
+        {
             parent[ulpv] = ulpu;
-        }else{
+        }
+        else
+        {
             // both rank equal => attach to anyone and increase it's rank (level) size
             parent[ulpv] = ulpu;
             rank[ulpu]++;
         }
     }
     // Attaching nodes by just replacing rank (level) to size in step 2.
-    void unionBySize(int u, int v){
+    void unionBySize(int u, int v)
+    {
         int ulpu = findUltimateParent(u);
         int ulpv = findUltimateParent(v);
-        if(ulpu == ulpv) return;
-        if(size[ulpu] < size[ulpv]){
+        if (ulpu == ulpv)
+            return;
+        if (size[ulpu] < size[ulpv])
+        {
             parent[ulpu] = ulpv;
             size[ulpv] += size[ulpu];
-        }else{
+        }
+        else
+        {
             parent[ulpv] = ulpu;
             size[ulpu] += size[ulpv];
         }
